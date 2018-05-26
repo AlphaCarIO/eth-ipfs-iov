@@ -27,9 +27,9 @@ RUN apt-get update
 
 RUN apt-get install -y apt-utils
 
-WORKDIR /root
+ADD *.tar.gz /root/
 
-ADD *.sh ipfs /root/
+WORKDIR /root/go-ipfs
 
 RUN chmod +x *.sh && ./install.sh
 

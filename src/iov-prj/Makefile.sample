@@ -1,0 +1,31 @@
+#####
+#####
+
+.PHONY : prepare test cc ropsten
+.IGNORE : del_testenv ropsten
+
+NETWORK_GETH_DEV=--network geth_dev
+
+SOLC_OPT=--pretty-json --abi --bin --optimize --optimize-runs 200
+
+mac:
+	brew update
+	brew upgrade
+	brew tap ethereum/ethereum
+	brew install solidity
+	brew upgrade solidity
+
+prepare:
+	npm i -g truffle truffle-flattener solc
+	npm i
+
+cc:
+	rm -rf build
+	truffle compile
+	truffle-flattener contracts/iov/IOVContract.sol > build/IOVContract.sol
+
+	solc -o build/IOVContract $(SOLC_OPT) build/IOVContract.sol
+
+mig_test_geth:
+	truffle migrate $(NETWORK_GETH_DEV)
+	 

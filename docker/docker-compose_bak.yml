@@ -1,0 +1,74 @@
+version: '3'
+
+services:
+
+  eth_node:
+    build:
+      context: ./eth_node
+      dockerfile: Dockerfile
+    image: alphacar/eth_node
+    container_name: eth_node
+    ports:
+      - "8545:8545"
+      - "30303:30303"
+    environment:
+      - DATADIR="/data_dir"
+      - MINER_COUNT=0
+    volumes:
+      - ./eth_node/test_ethereum:/data_dir:rw
+    command: /root/start.sh
+
+  ipfs_node:
+    build:
+      context: ./ipfs_node
+      dockerfile: Dockerfile
+    image: alphacar/ipfs_node
+    container_name: ipfs_node
+    ports:
+      - "4001:4001"
+      - "127.0.0.1:5001:5001"
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - ./var/ipfs:/root/.ipfs:rw
+    command: /root/start.sh
+
+  redis:
+    build:
+      context: ./redis
+      dockerfile: Dockerfile
+    image: alphacar/redis
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis/redis.conf:/root/redis.conf:rw
+      - ./var/redis:/data:rw
+    #command: redis-server /root/redis.conf
+
+  mongodb:
+    build:
+      context: ./mongodb
+      dockerfile: Dockerfile
+    image: alphacar/mongodb
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./var/mongodb:/data/db:rw
+      - ../src/mongo_scripts/:/mongo_scripts:rw
+
+  mysql:
+    build:
+      context: ./mysql
+      dockerfile: Dockerfile
+    image: alphacar/mysql
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./var/mysql:/var/lib/mysql:rw
+    environment:
+      - MYSQL_ROOT_PASSWORD="root123"
+      - MYSQL_DATABASE="alphacar"
+      - MYSQL_USER="demo"
+      - MYSQL_PASSWORD="demo123"

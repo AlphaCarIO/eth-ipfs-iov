@@ -1,0 +1,3 @@
+*.pyd
+Makefile
+__pycache__

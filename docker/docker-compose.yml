@@ -1,0 +1,29 @@
+version: '3'
+
+services:
+
+  ipfs_node:
+    build:
+      context: ./ipfs_node
+      dockerfile: Dockerfile
+    image: alphacar/ipfs_node
+    container_name: ipfs_node
+    ports:
+      - "4001:4001"
+      - "127.0.0.1:5001:5001"
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - ./var/ipfs:/root/.ipfs:rw
+    command: /root/start.sh
+
+  mongodb:
+    build:
+      context: ./mongodb
+      dockerfile: Dockerfile
+    image: alphacar/mongodb
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./var/mongodb:/data/db:rw
+      - ../src/mongo_scripts/:/mongo_scripts:rw

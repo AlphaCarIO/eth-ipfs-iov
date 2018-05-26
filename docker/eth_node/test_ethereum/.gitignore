@@ -1,0 +1,7 @@
+geth
+history
+geth.ipc
+ropsten
+mainnet
+testnet
+*.log

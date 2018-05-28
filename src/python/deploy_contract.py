@@ -8,23 +8,23 @@ WEB3_CONFIG = {
     'config': 'config.json',
 }
 
-FOLDER_PATH = '../iov-prj/build/IOVContract'
-
-FILE_PREFIX = 'IOVContract'
-
 if __name__ == "__main__":
 
     w3 = Web3Wrapper('config.json')
 
+    CONTRACT_CONFIG = None
     abi_dat = None
     bin_dat = None
     
-    with open('%s/%s.abi' % (FOLDER_PATH, FILE_PREFIX), "r") as load_f:
+    with open('deploy.json', "r") as load_f:
+        CONTRACT_CONFIG = json.load(load_f)
+    
+    with open(CONTRACT_CONFIG['abi'], "r") as load_f:
         abi_dat = json.load(load_f)
     
     #print(abi_dat)
 
-    with open('%s/%s.bin' % (FOLDER_PATH, FILE_PREFIX), "r") as load_f:
+    with open(CONTRACT_CONFIG['bin'], "r") as load_f:
         bin_dat = load_f.read()
 
     #print(bin_dat)
@@ -37,8 +37,6 @@ if __name__ == "__main__":
     blockInfo = w3.getBlock()
 
     nonce = blockInfo['nonce']
-    
-    #print('getBlock:', w3.getBlock())
 
     print('nonce:', bytes(nonce))
 

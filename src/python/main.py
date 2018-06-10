@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-from lib.mongo_wrapper import MongoWrapper
-from lib.ipfs_wrapper import IPFSWrapper
-from lib.web3_wrapper import Web3Wrapper
+from backend.app.lib.mongo_wrapper import MongoWrapper
+from backend.app.lib.ipfs_wrapper import IPFSWrapper
+from backend.app.lib.web3_wrapper import Web3Wrapper
 
 import datetime
 

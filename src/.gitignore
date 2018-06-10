@@ -1,3 +1,4 @@
 *.pyd
 Makefile
 __pycache__
+log

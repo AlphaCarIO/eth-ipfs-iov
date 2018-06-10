@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from lib.web3_wrapper import Web3Wrapper
+from backend.app.lib.web3_wrapper import Web3Wrapper
 
 import datetime
 import json

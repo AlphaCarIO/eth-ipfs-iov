@@ -2,10 +2,12 @@ pragma solidity ^0.4.21;
 
 import "zeppelin-solidity/contracts/ownership/Ownable.sol";
 import "zeppelin-solidity/contracts/math/SafeMath.sol";
+import "../utils/StringUtils.sol";
 
 contract IOVContract is Ownable {
 
     using SafeMath for uint;
+    using StringUtils for string;
 
     struct IOVInfo {
         string hashVal;
@@ -30,12 +32,14 @@ contract IOVContract is Ownable {
     function IOVContract() public {
     }
     
+    /*
     function compareStrings(string a, string b) internal pure returns (bool) {
        return keccak256(a) == keccak256(b);
-    }
+    }*/
 
     function storeHash(string _datetime, string _hashVal) public onlyOwner {
-        require(!compareStrings(_datetime, "") && !compareStrings(_hashVal, ""));
+        //require(!compareStrings(_datetime, "") && !compareStrings(_hashVal, ""));
+        require(!_datetime.equal("") && !_hashVal.equal(""));
 
         IOVInfo memory info = IOVInfo({hashVal: _hashVal, timestamp: now, flag: true});
         infos[_datetime] = info;

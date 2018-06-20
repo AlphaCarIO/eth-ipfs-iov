@@ -29,7 +29,11 @@ RUN apt-get install -y apt-utils
 
 ADD *.tar.gz /root/
 
+ADD start.sh /root/
+
 WORKDIR /root/go-ipfs
+
+RUN chmod +x /root/*.sh
 
 RUN chmod +x *.sh && ./install.sh
 

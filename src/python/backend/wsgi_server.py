@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from gevent.wsgi import WSGIServer
 from app.app import app
 

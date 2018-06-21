@@ -4,6 +4,7 @@ web3:
     chainId: 3
     url: "https://ropsten.infura.io/4gmRz0RyQUqgK0Q1jdu5"
     address: "0xdA83aeE0F49802a331d455f503341A5FDCbDE923"
+    contract_address: "0x9348Ec3ED3133fDeB3781AbbA2331F5AD240d5e8"
     privatekey_path: "keystore/UTC--2018-01-14T18-46-20.321874736Z--da83aee0f49802a331d455f503341a5fdcbde923"
     password: "a"
     needKey: True
@@ -11,6 +12,7 @@ web3:
 deploy:
     abi: "../../iov-prj/build/IOVContract/IOVContract.abi"
     bin: "../../iov-prj/build/IOVContract/IOVContract.bin"
+    gas: 3e+6
     gasPrice: 10e+9
     
 mongo:
@@ -19,8 +21,9 @@ mongo:
     db_name: 'alphacar'
     username: ''
     password: ''
+    reCreated: True
 
 ipfs:
-    host: '127.0.0.1',
+    host: '127.0.0.1'
     port: 5001
     

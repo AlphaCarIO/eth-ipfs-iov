@@ -1,13 +1,20 @@
 # -*- coding: utf-8 -*-
-from backend.app.lib.mongo_wrapper import MongoWrapper
-from backend.app.lib.ipfs_wrapper import IPFSWrapper
-from backend.app.lib.web3_wrapper import Web3Wrapper
+
+from alphacar.web3_wrapper import Web3Wrapper
+from alphacar.mongo_wrapper import MongoWrapper
+from alphacar.ipfs_wrapper import IPFSWrapper
 
 import datetime
 
+import os
+
 import json, yaml
 
+from decimal import *
+
 if __name__ == "__main__":
+
+    print('iov demo')
     
     filePath = os.path.dirname(__file__)
     fileNamePath = os.path.split(os.path.realpath(__file__))[0]
@@ -19,7 +26,7 @@ if __name__ == "__main__":
         tmp = f.read()
         conf = yaml.load(tmp)
 
-    mongo_wrapper = MongoWrapper(conf['mongo'], True)
+    mongo_wrapper = MongoWrapper(conf['mongo'])
     ipfs_api = IPFSWrapper(conf['ipfs'])
 
     today = datetime.datetime.today()
@@ -48,14 +55,17 @@ if __name__ == "__main__":
 
     abi_dat = None
     
-    with open('%s/%s.abi' % (FOLDER_PATH, FILE_PREFIX), "r") as load_f:
+    with open(conf['deploy']['abi'], "r") as load_f:
         abi_dat = json.load(load_f)
-    
-    ETH_CONFIG = None
 
-    with open('main_conf.json') as load_f:
-        ETH_CONFIG = json.load(load_f)
+    w3 = Web3Wrapper(conf['web3'])
 
-    w3 = Web3Wrapper('config.json')
+    gas = int(Decimal(conf['deploy']['gas']))
+    gasPrice = int(Decimal(conf['deploy']['gasPrice']))
+    contract_address = conf['web3']['contract_address']
 
-    w3.storeHash(today_str, hashVal, ETH_CONFIG['contract_address'], abi_dat, gas = 10 ** 6, gasPrice = 10 * 10 ** 9)
+    print('contract_address:', contract_address, 'gas:', gas, ' gasPrice:', gasPrice)
+    #exit(0)
+
+    tx = w3.storeHash(today_str, hashVal, contract_address, abi_dat, gas = gas, gasPrice = gasPrice)
+    print('store hash tx:', tx)

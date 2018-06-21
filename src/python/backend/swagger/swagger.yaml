@@ -17,7 +17,7 @@ paths:
       tags: [Demo]
       summary: Generate greeting
       description: Generates a greeting message.
-      x-swagger-router-controller: app.app
+      x-swagger-router-controller: app.controller.index
       operationId: post_greeting
       produces:
         - text/plain

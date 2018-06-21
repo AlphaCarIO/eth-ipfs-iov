@@ -1,7 +1,0 @@
-{
-    "chainId": 3,
-    "url": "http://127.0.0.1:8545",
-    "address": "your address",
-    "privatekey_path": "path/to/your/private/key",
-    "password": "your password"
-}

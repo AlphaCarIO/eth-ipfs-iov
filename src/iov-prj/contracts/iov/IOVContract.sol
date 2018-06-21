@@ -16,7 +16,9 @@ contract IOVContract is Ownable {
         bool flag;
     }
 
-    event NewHashAdded(IOVInfo _info);
+    event evInsertHash(string _type, string _datetime, string _hashVal);
+
+    event evUpdateHash(string _type, string _datetime, string _hashVal);
 
     uint public count = 0;
     
@@ -41,13 +43,18 @@ contract IOVContract is Ownable {
         //require(!compareStrings(_datetime, "") && !compareStrings(_hashVal, ""));
         require(!_datetime.equal("") && !_hashVal.equal(""));
 
+        bool b = infos[_datetime].flag;
+
         IOVInfo memory info = IOVInfo({hashVal: _hashVal, timestamp: now, flag: true});
         infos[_datetime] = info;
-        datetimes.push(_datetime);
 
-        count = count.add(1);
-
-        emit NewHashAdded(info);
+        if (!b) {
+            datetimes.push(_datetime);
+            count = count.add(1);
+            emit evInsertHash("i", _datetime, _hashVal);
+        } else {
+            emit evUpdateHash("u", _datetime, _hashVal);
+        }
     }
 
     function getTimestamp(string _datetime) public view returns (uint) {

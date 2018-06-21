@@ -4,7 +4,7 @@ web3:
     chainId: 3
     url: "https://ropsten.infura.io/4gmRz0RyQUqgK0Q1jdu5"
     address: "0xdA83aeE0F49802a331d455f503341A5FDCbDE923"
-    contract_address: "0x9348Ec3ED3133fDeB3781AbbA2331F5AD240d5e8"
+    contract_address: "0xD1eedb24CeE20B09eB7428B25Ec99B583c1b4E6c"
     privatekey_path: "keystore/UTC--2018-01-14T18-46-20.321874736Z--da83aee0f49802a331d455f503341a5fdcbde923"
     password: "a"
     needKey: True
@@ -21,7 +21,6 @@ mongo:
     db_name: 'alphacar'
     username: ''
     password: ''
-    reCreated: True
 
 ipfs:
     host: '127.0.0.1'

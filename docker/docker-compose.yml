@@ -27,3 +27,16 @@ services:
     volumes:
       - ./var/mongodb:/data/db:rw
       - ../src/mongo_scripts/:/mongo_scripts:rw
+
+  rockmongo:
+    image: maichong/rockmongo
+    container_name: rockmongo
+    ports:
+      - "18080:80"
+    environment:
+      #- MONGO_PORT_27017_TCP_ADDR="0.0.0.0"
+      - MONGO_PORT_27017_TCP_ADDR="172.18.0.1"
+      - MONGO_HOST="lc_mongodb"
+      - S="0.0.0.0:80"
+    links:
+      - mongodb

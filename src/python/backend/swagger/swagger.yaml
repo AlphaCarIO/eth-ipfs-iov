@@ -17,7 +17,7 @@ paths:
       tags: [Demo]
       summary: Generate greeting
       description: Generates a greeting message.
-      x-swagger-router-controller: app.controller.index
+      x-swagger-router-controller: app.controller.index_ctl
       operationId: post_greeting
       produces:
         - text/plain
@@ -34,3 +34,44 @@ paths:
             type: string
           examples:
             "text/plain": "Hello John"
+
+  /infos/{date_str}:
+    get:
+      tags: [Mongo]
+      summary: get all infos by date
+      description: get all infos by date
+      x-swagger-router-controller: app.controller.mongo_ctl
+      operationId: getAllInfosByDate
+      produces:
+        - application/json
+      parameters:
+        - name: date_str
+          in: path
+          description: the date string.
+          required: true
+          type: string
+      responses:
+        200:
+          description: infos response
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Info"
+
+definitions:
+  User:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      cid:
+        type: "string"
+  Info:
+    type: "object"
+    properties:
+      datetime:
+        type: "string"
+      user:
+        $ref: "#/definitions/User"
+    xml:
+      name: "Info"

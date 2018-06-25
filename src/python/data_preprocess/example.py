@@ -18,6 +18,10 @@ import pymongo
 
 import copy
 
+def addHash(x, hash):
+    x['hash'] = hash
+    return x
+
 if __name__ == "__main__":
 
     print('---iov demo---')
@@ -29,7 +33,7 @@ if __name__ == "__main__":
     
     filePath = os.path.dirname(__file__)
     fileNamePath = os.path.split(os.path.realpath(__file__))[0]
-    yamlPath = os.path.join(fileNamePath, 'config.yaml')
+    yamlPath = os.path.join(fileNamePath, '../conf/config.yaml')
 
     conf = None
 
@@ -41,7 +45,8 @@ if __name__ == "__main__":
 
     ipfs_api = IPFSWrapper(conf['ipfs'])
 
-    w3 = Web3Wrapper(conf['web3'])
+    web3_conf = conf['web3']
+    w3 = Web3Wrapper(web3_conf)
 
     db_name = conf['mongo']['db_name']
     username = conf['mongo']['username']
@@ -49,40 +54,9 @@ if __name__ == "__main__":
 
     print('options.recreate:', options.recreate)
 
-    if options.recreate == True:
-        mongo_wrapper.drop_database(db_name)
-    mongo_wrapper.connect_db(db_name, username, password)
-
     today = datetime.datetime.today()
     today_str = today.strftime('%Y-%m-%d')
-
-    print('today_str:', today_str)
-    
-    mongo_wrapper.create_index(today_str, [('datetime', pymongo.ASCENDING), ('user', pymongo.ASCENDING)], True)
-    
-    datas = [
-        {'datetime': today_str, 'user': {'name': 'leo', 'cid': '1070701'}},
-        {'datetime': today_str, 'user': {'name': 'nicolas', 'cid': '1070701'}},
-    ]
-    
-    tmp_datas = copy.deepcopy(datas)
-
-    mongo_wrapper.insert_data(today_str, tmp_datas)
-
-    print('tmp_datas:', tmp_datas)
-    print('datas:', datas)
-
-    hashVal = ipfs_api.addJsonData(datas)
-
-    print('hash:', hashVal)
-
-    res = mongo_wrapper.db[today_str].find({})
-
-    for item in res:
-        print (item)
-
     #store hash data on blockchain
-
     abi_dat = None
     
     with open(conf['deploy']['abi'], "r") as load_f:
@@ -106,7 +80,48 @@ if __name__ == "__main__":
     for ind in range(0, getCount):
         getDateTime = w3.getDateTime(ind)
         print('ind:', ind, ' getDateTime:',  getDateTime)
-    #exit(0)
 
-    tx = w3.putHash(today_str, hashVal, gas = gas, gasPrice = gasPrice)
-    print('store hash tx:', tx)
+    if options.recreate == True:
+        mongo_wrapper.drop_database(db_name)
+    mongo_wrapper.connect_db(db_name, username, password)
+
+    print('today_str:', today_str)
+    
+    datas = None
+
+    with open('sample.json', "r", encoding='utf-8') as f:
+        datas = json.load(f)
+
+    nonce = w3.getNonce()
+
+    for data in datas:
+
+        if (len(data) == 0):
+            continue
+
+        dt = data[0]['datetime']
+    
+        mongo_wrapper.create_index(dt, [('datetime', pymongo.ASCENDING), ('user', pymongo.ASCENDING)], True)
+
+        hashVal = ipfs_api.addJsonData(data)
+
+        print('hash:', hashVal)
+
+        print('datas:', data)
+    
+        tmp_data = copy.deepcopy(data)
+
+        tmp_data = [addHash(x, hashVal) for x in tmp_data]
+
+        mongo_wrapper.insert_data(dt, tmp_data)
+
+        print('tmp_datas:', tmp_data)
+
+        res = mongo_wrapper.db[dt].find({})
+
+        for item in res:
+            print (item)
+
+        tx = w3.putHash(dt, hashVal, gas = gas, gasPrice = gasPrice, nonce = nonce)
+        nonce += 1
+        print('store hash tx:', tx)

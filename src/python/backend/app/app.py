@@ -2,6 +2,7 @@
 import connexion
 from connexion.resolver import RestyResolver
 import app.service.mongo_service as mongo_service
+from flask_cors import *
 
 import os
 import yaml
@@ -9,6 +10,7 @@ import yaml
 from optparse import OptionParser
 
 app = connexion.FlaskApp(__name__, specification_dir='../swagger/')
+CORS(app.app, supports_credentials=True)
 
 app.add_api('swagger.yaml', arguments={'title': 'AlphaCar Blockchain API Service'},
     resolver=RestyResolver('api'))

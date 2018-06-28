@@ -1,14 +1,38 @@
 [
-    [
-        {"datetime": "2018-06-21", "user": {"name": "leo", "cid": "1070701"}},
-        {"datetime": "2018-06-21", "user": {"name": "nicolas", "cid": "1070701"}}
-    ],
-    [
-        {"datetime": "2018-06-22", "user": {"name": "leo", "cid": "1070701"}},
-        {"datetime": "2018-06-22", "user": {"name": "nicolas", "cid": "1070701"}}
-    ],
-    [
-        {"datetime": "2018-06-25", "user": {"name": "leo", "cid": "1070701"}},
-        {"datetime": "2018-06-25", "user": {"name": "nicolas", "cid": "1070701"}}
-    ]
+    {
+        "ubi_code": "1", "timestamp":"1529989200", 
+        "start_date": "2018-01-01", "end_date": "2018-12-30",
+        "user": {"name": "leo", "driving_license": "12345"}, 
+        "car_info": { "car_type": "ford", "vin_code": "123"}
+    },
+    {
+        "ubi_code": "2", "timestamp":"1530075600", 
+        "start_date": "2018-01-01", "end_date": "2018-12-30",
+        "user": {"name": "ted", "driving_license": "22345"}, 
+        "car_info": { "car_type": "ford", "vin_code": "456"}
+    },
+    {
+        "ubi_code": "3", "timestamp":"1530162000", 
+        "start_date": "2018-01-01", "end_date": "2018-12-30",
+        "user": {"name": "michael", "driving_license": "32345"}, 
+        "car_info": { "car_type": "benz", "vin_code": "789"}
+    },
+    {
+        "ubi_code": "4", "timestamp":"1530248400", 
+        "start_date": "2018-01-01", "end_date": "2018-12-30",
+        "user": {"name": "ray", "driving_license": "42345"}, 
+        "car_info": { "car_type": "benz", "vin_code": "987"}
+    },
+    {
+        "ubi_code": "5", "timestamp":"1530334800", 
+        "start_date": "2018-01-01", "end_date": "2018-12-30",
+        "user": {"name": "bill", "driving_license": "52345"}, 
+        "car_info": { "car_type": "lamborghini", "vin_code": "654"}
+    },
+    {
+        "ubi_code": "6", "timestamp":"1530334801", 
+        "start_date": "2018-01-01", "end_date": "2018-12-30",
+        "user": {"name": "miki", "driving_license": "62345"}, 
+        "car_info": { "car_type": "lamborghini", "vin_code": "6543"}
+    }
 ]

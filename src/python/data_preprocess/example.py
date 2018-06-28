@@ -22,12 +22,55 @@ def addHash(x, hash):
     x['hash'] = hash
     return x
 
+class Web3(Web3Wrapper):
+
+    def __init__(self, conf):
+        super(Web3, self).__init__(conf)
+
+    def getCount(self):
+        if self.contract != None:
+            return self.contract.functions.count().call()
+        return -1
+
+    def getTimestamp(self, _datetime) :
+        if self.contract != None:
+            return self.contract.functions.getTimestamp(_datetime).call()
+        return ''
+
+    def getHash(self, _datetime) :
+        if self.contract != None:
+            return self.contract.functions.getHash(_datetime).call()
+        return ''
+
+    def getDateTime(self, count) :
+        if self.contract != None:
+            return self.contract.functions.getDateTime(count).call()
+        return ''
+
+    def putHash(self, _datetime, _hashVal, **kwargs) :
+        
+        if self.contract != None:
+
+            param = self.getTxParam(**kwargs)
+
+            raw_txn = self.contract.functions.storeHash(_datetime, _hashVal).buildTransaction({
+                'chainId': self.chainId,
+                'gas': param['gas'],
+                'gasPrice': param['gasPrice'],
+                'nonce': param['nonce'],
+            })
+
+            return self.signAndSend(raw_txn)
+
+        return None
+
 if __name__ == "__main__":
 
     print('---iov demo---')
 
     parser = OptionParser()
     parser.add_option("-r", "--recreate", action = "store_true", default = False, dest = "recreate")
+    parser.add_option("-n", "--nostore", action = "store_true", default = False, dest = "nostore")
 
     (options, args) = parser.parse_args()
     
@@ -46,12 +89,13 @@ if __name__ == "__main__":
     ipfs_api = IPFSWrapper(conf['ipfs'])
 
     web3_conf = conf['web3']
-    w3 = Web3Wrapper(web3_conf)
+    w3 = Web3(web3_conf)
 
     db_name = conf['mongo']['db_name']
     username = conf['mongo']['username']
     password = conf['mongo']['password']
 
+    print('options.nostore:', options.nostore)
     print('options.recreate:', options.recreate)
 
     today = datetime.datetime.today()
@@ -94,34 +138,34 @@ if __name__ == "__main__":
 
     nonce = w3.getNonce()
 
+    collection = 'ubi_info'
+    
+    mongo_wrapper.create_index(collection, [('ubi_code', pymongo.ASCENDING)], True)
+
     for data in datas:
 
-        if (len(data) == 0):
-            continue
-
-        dt = data[0]['datetime']
-    
-        mongo_wrapper.create_index(dt, [('datetime', pymongo.ASCENDING), ('user', pymongo.ASCENDING)], True)
-
         hashVal = ipfs_api.addJsonData(data)
-
-        print('hash:', hashVal)
-
-        print('datas:', data)
     
         tmp_data = copy.deepcopy(data)
 
-        tmp_data = [addHash(x, hashVal) for x in tmp_data]
+        tmp_data['hash'] = hashVal
 
-        mongo_wrapper.insert_data(dt, tmp_data)
+        #tmp_data = [addHash(x, hashVal) for x in tmp_data]
+
+        mongo_wrapper.insert_data(collection, tmp_data)
 
         print('tmp_datas:', tmp_data)
 
-        res = mongo_wrapper.db[dt].find({})
+        if options.nostore:
+            continue
 
-        for item in res:
-            print (item)
+        #tx = w3.putHash(dt, hashVal, gas = gas, gasPrice = gasPrice, nonce = nonce)
+        #nonce += 1
+        #print('store hash tx:', tx)
 
-        tx = w3.putHash(dt, hashVal, gas = gas, gasPrice = gasPrice, nonce = nonce)
-        nonce += 1
-        print('store hash tx:', tx)
+    res = mongo_wrapper.db[collection].find({})
+
+    for item in res:
+        print (item)
+    
+    mongo_wrapper.close()

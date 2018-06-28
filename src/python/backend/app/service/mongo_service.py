@@ -5,6 +5,7 @@ from alphacar.mongo_wrapper import MongoWrapper
 import click
 from flask import current_app, g
 from flask.cli import with_appcontext
+import pymongo
 
 def get_mongo():
     if 'mongo' not in g:
@@ -35,9 +36,46 @@ def init_app(app):
     app.cli.add_command(init_db_command)
 
 #service methods
-def getAllInfosByDate(date_str):
+def getLatestUBIInfo():
     mongo = get_mongo()
-    result = mongo.db[date_str].find({}, {'_id' : 0})
+    result = mongo.db['ubi_info'].find({}, { '_id' : 0 }).sort([('timestamp', pymongo.DESCENDING)]).limit(1)
+    for item in result:
+        return item
+    return {}
+
+def getUbiInfo(ubi_code):
+    mongo = get_mongo()
+    result = mongo.db['ubi_info'].find({ 'ubi_code': ubi_code }, {'_id' : 0}).limit(1)
+    for item in result:
+        return item
+    return {}
+
+def getUbiInfoList(search_type, search_txt):
+    #type: 0.all 1.ubi_code 2.vincode 3.driving license
+    mongo = get_mongo()
+
+    cond = {}
+
+    if search_txt == '':
+        pass
+    elif search_type == '0' :
+        cond = { '$or' : [ 
+                    {'ubi_code': search_txt}, 
+                    {'car.vin_code': search_txt}, 
+                    {'user.driving_license': search_txt},
+                    {'user.name': search_txt}, 
+                    ]
+                }
+    elif search_type == '1' :
+        cond = {'ubi_code': search_txt}
+    elif search_type == '2' :
+        cond = {'car.vin_code': search_txt}
+    elif search_type == '3' :
+        cond = {'user.name': search_txt}
+    elif search_type == '4' :
+        cond = {'user.driving_license': search_txt}
+
+    result = mongo.db['ubi_info'].find(cond, {'_id' : 0}).sort([('timestamp', pymongo.DESCENDING)])
     lst = list()
     lst = [item for item in result]
     return lst

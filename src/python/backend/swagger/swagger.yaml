@@ -14,7 +14,7 @@ basePath: /v1
 paths:
   /greeting/{name}:
     get:
-      tags: [Demo]
+      tags: [DEMO]
       summary: Generate greeting
       description: Generates a greeting message.
       x-swagger-router-controller: app.controller.index_ctl
@@ -35,43 +35,121 @@ paths:
           examples:
             "text/plain": "Hello John"
 
-  /infos/{date_str}:
+  /ubi_info/latest:
     get:
-      tags: [Mongo]
-      summary: get all infos by date
-      description: get all infos by date
+      tags: [UBI Info]
+      summary: get latest tx
+      description: get latest tx
       x-swagger-router-controller: app.controller.mongo_ctl
-      operationId: getAllInfosByDate
+      operationId: getLatestUBIInfo
+      produces:
+        - application/json
+      responses:
+        200:
+          description: infos response
+          schema:
+            $ref: "#/definitions/UBIInfo"
+
+  /ubi_info/index/{ubi_code}:
+    get:
+      tags: [UBI Info]
+      summary: get latest tx
+      description: get latest tx
+      x-swagger-router-controller: app.controller.mongo_ctl
+      operationId: getUbiInfo
       produces:
         - application/json
       parameters:
-        - name: date_str
+        - name: ubi_code
           in: path
-          description: the date string.
+          description: the ubi_code string.
           required: true
           type: string
       responses:
         200:
           description: infos response
           schema:
+            $ref: "#/definitions/UBIInfo"
+
+  /ubi_info_lst:
+    get:
+      tags: [UBI Info]
+      summary: get all txs by date
+      description: get all txs by date
+      x-swagger-router-controller: app.controller.mongo_ctl
+      operationId: getUbiInfoList
+      produces:
+        - application/json
+      parameters:
+        - name: search_type
+          in: query
+          description: the search_type string.
+          required: true
+          type: string
+        - name: search_txt
+          in: query
+          description: the search_txt string.
+          required: true
+          type: string
+      responses:
+        200:
+          description: UBIInfos response
+          schema:
             type: "array"
             items:
-              $ref: "#/definitions/Info"
+              $ref: "#/definitions/UBIInfo"
+
+  /ubi_info_lst/all:
+    get:
+      tags: [UBI Info]
+      summary: get all txs by date
+      description: get all txs by date
+      x-swagger-router-controller: app.controller.mongo_ctl
+      operationId: getAllUbiInfoList
+      produces:
+        - application/json
+      responses:
+        200:
+          description: UBIInfos response
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/UBIInfo"
 
 definitions:
+
   User:
     type: "object"
     properties:
       name:
         type: "string"
-      cid:
+      driving_license:
         type: "string"
-  Info:
+
+  CarInfo:
     type: "object"
     properties:
-      datetime:
+      car_type:
         type: "string"
+      vin_code:
+        type: "string"
+
+  UBIInfo:
+    type: "object"
+    properties:
+      ubi_code:
+        type: "string"
+      timestamp:
+        type: "integer"
+        format: "int64"
       user:
         $ref: "#/definitions/User"
-    xml:
-      name: "Info"
+      carinfo:
+        $ref: "#/definitions/CarInfo"
+      start_date:
+        type: "string"
+      end_date:
+        type: "string"
+      price:
+        type: "number"
+        format: "double"

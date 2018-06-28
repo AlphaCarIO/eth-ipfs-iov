@@ -1,0 +1,14 @@
+[
+    [
+        {"datetime": "2018-06-21", "user": {"name": "leo", "cid": "1070701"}},
+        {"datetime": "2018-06-21", "user": {"name": "nicolas", "cid": "1070701"}}
+    ],
+    [
+        {"datetime": "2018-06-22", "user": {"name": "leo", "cid": "1070701"}},
+        {"datetime": "2018-06-22", "user": {"name": "nicolas", "cid": "1070701"}}
+    ],
+    [
+        {"datetime": "2018-06-25", "user": {"name": "leo", "cid": "1070701"}},
+        {"datetime": "2018-06-25", "user": {"name": "nicolas", "cid": "1070701"}}
+    ]
+]

@@ -6,7 +6,7 @@ console.log('config.web3_url=', config.web3_url)
 console.log('config.acar_contract_addr=', config.acar_contract_addr)
 //console.log('config.acar_abi_def=', config.acar_abi_def)
 
-let getWeb3 = new Promise(function (resolve, reject) {
+let web3wrapper = new Promise(function (resolve, reject) {
   var web3 = new Web3();
   var provider = new Web3.providers.HttpProvider(config.web3_url);
   web3.setProvider(provider);
@@ -45,4 +45,4 @@ let getWeb3 = new Promise(function (resolve, reject) {
     })
   })
 
-export default getWeb3
+export default web3wrapper

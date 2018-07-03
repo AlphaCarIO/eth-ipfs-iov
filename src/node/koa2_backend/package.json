@@ -1,12 +1,12 @@
 {
   "name": "koa2_backend",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node bin/www",
-    "dev": "pm2-dev start bin/www",
-    "dev2": "./node_modules/.bin/nodemon bin/www",
-    "prd": "pm2 start bin/www",
+    "start": "rm .node-xmlhttprequest-sync*; node bin/www",
+    "dev": "rm .node-xmlhttprequest-sync*; pm2-dev start bin/www",
+    "dev2": "rm .node-xmlhttprequest-sync*; ./node_modules/.bin/nodemon bin/www",
+    "prd": "rm .node-xmlhttprequest-sync*; pm2 start bin/www",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
@@ -14,6 +14,7 @@
     "babel-preset-es2015-node5": "^1.2.0",
     "babel-preset-stage-3": "^6.24.1",
     "bignumber.js": "^5.0.0",
+    "bluebird": "^3.5.1",
     "debug": "^2.6.3",
     "ipfs-api": "^22.2.1",
     "koa": "^2.2.0",
@@ -25,8 +26,11 @@
     "koa-router": "^7.1.1",
     "koa-static": "^3.0.0",
     "koa-views": "^5.2.1",
-    "mongodb": "^3.1.0",
+    "mongoose": "^5.2.0",
     "pug": "^2.0.0-rc.1",
+    "swagger-ui": "^3.17.2",
+    "swagger-ui-dist": "^3.17.2",
+    "swagger2-koa": "^1.0.1",
     "truffle-contract": "^3.0.6",
     "web3": "^0.20.1"
   },

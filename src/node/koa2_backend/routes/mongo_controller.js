@@ -1,6 +1,5 @@
 const router = require('koa-router')()
 
-import getWeb3 from '../libs/getWeb3'
 import * as web3_service from "../services/web3_service"
 
 router.get('/', async (ctx, next) => {

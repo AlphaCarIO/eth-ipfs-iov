@@ -1,5 +1,6 @@
 const Koa = require('koa')
 const app = new Koa()
+var cors = require('koa2-cors');
 
 import * as swagger from 'swagger2';
 import {ui, router as swaggerRouter, Router} from 'swagger2-koa';
@@ -20,6 +21,7 @@ onerror(app)
 app.use(bodyparser({
   enableTypes:['json', 'form', 'text']
 }))
+app.use(cors())
 app.use(json())
 app.use(logger())
 

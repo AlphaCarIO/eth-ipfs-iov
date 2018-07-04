@@ -12,13 +12,24 @@ produces:
 basePath: /
 
 paths:
+  /:
+    get:
+      tags: [INDEX]
+      summary: basic info of alphacar
+      description: basic info of alphacar
+      produces:
+        - text/plain
+      responses:
+        200:
+          description: basic info of alphacar response
+          schema:
+            type: string
+
   /greeting/{name}:
     get:
-      tags: [DEMO]
+      tags: [INDEX]
       summary: Generate greeting
       description: Generates a greeting message.
-      #x-swagger-router-controller: app.controller.index_ctl
-      #operationId: post_greeting
       produces:
         - text/plain
       parameters:
@@ -33,30 +44,58 @@ paths:
           schema:
             type: string
           examples:
-            "text/plain": "Hello! John"
+            "text/plain": "Hello John. This is AlphaCar.IO."
+
+  /token/info:
+    get:
+      tags: [Token]
+      summary: get token info
+      description: get token info
+      produces:
+        - application/json
+      responses:
+        200:
+          description: token info response
+          schema:
+            $ref: "#/definitions/TokenInfoResult"
+
+  /token/balance_of/{address}:
+    get:
+      tags: [Token]
+      summary: get token balance
+      description: get token balance
+      produces:
+        - application/json
+      parameters:
+        - name: address
+          in: path
+          description: the address string.
+          required: true
+          type: string
+      responses:
+        200:
+          description: balance response
+          schema:
+            $ref: "#/definitions/TokenBalanceResult"
 
   /ubi_info/latest:
     get:
       tags: [UBI Info]
-      summary: get latest tx
-      description: get latest tx
-      x-swagger-router-controller: app.controller.mongo_ctl
-      operationId: getLatestUBIInfo
+      summary: get latest ubi info
+      description: get latest ubi info
       produces:
         - application/json
       responses:
         200:
           description: infos response
           schema:
-            $ref: "#/definitions/UBIInfo"
+            $ref: "#/definitions/UBIInfoResult"
 
   /ubi_info/index/{ubi_code}:
     get:
       tags: [UBI Info]
-      summary: get latest tx
-      description: get latest tx
-      x-swagger-router-controller: app.controller.mongo_ctl
-      operationId: getUbiInfo
+      summary: get ubi info
+      description: get ubi info by ubi code
       produces:
         - application/json
       parameters:
@@ -69,54 +108,74 @@ paths:
         200:
           description: infos response
           schema:
-            $ref: "#/definitions/UBIInfo"
+            $ref: "#/definitions/UBIInfoResult"
 
-  /ubi_info_lst:
+  /ubi_info/list:
     get:
       tags: [UBI Info]
-      summary: get all txs by date
-      description: get all txs by date
-      x-swagger-router-controller: app.controller.mongo_ctl
-      operationId: getUbiInfoList
+      summary: get ubi infos
+      description: get ubi infos with search conditions
       produces:
         - application/json
       parameters:
         - name: search_type
           in: query
           description: the search_type string.
-          required: true
+          required: false
           type: string
         - name: search_txt
           in: query
           description: the search_txt string.
-          required: true
+          required: false
           type: string
       responses:
         200:
           description: UBIInfos response
           schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/UBIInfo"
-
-  /ubi_info_lst/all:
-    get:
-      tags: [UBI Info]
-      summary: get all txs by date
-      description: get all txs by date
-      x-swagger-router-controller: app.controller.mongo_ctl
-      operationId: getAllUbiInfoList
-      produces:
-        - application/json
-      responses:
-        200:
-          description: UBIInfos response
-          schema:
-            type: "array"
-            items:
-              $ref: "#/definitions/UBIInfo"
+            $ref: "#/definitions/UBIInfoListResult"
 
 definitions:
+
+  TokenInfoResult:
+    type: "object"
+    properties:
+      error_code:
+        type: "integer"
+        format: "int32"
+      error_msg:
+        type: "string"
+      data:
+        type: "object"
+        properties:
+          symbol:
+            type: "string"
+          name:
+            type: "string"
+          decimals:
+            type: "integer"
+            format: "int32"
+          totalSupply:
+            type: "number"
+            format: "double"
+          owner:
+            type: "string"
+
+  TokenBalanceResult:
+    type: "object"
+    properties:
+      error_code:
+        type: "integer"
+        format: "int32"
+      error_msg:
+        type: "string"
+      data:
+        type: "object"
+        properties:
+          balance:
+            type: "number"
+            format: "double"
+          balance_fmt:
+            type: "string"
 
   User:
     type: "object"
@@ -153,3 +212,27 @@ definitions:
       price:
         type: "number"
         format: "double"
+
+  UBIInfoResult:
+    type: "object"
+    properties:
+      error_code:
+        type: "integer"
+        format: "int32"
+      error_msg:
+        type: "string"
+      data:
+        $ref: "#/definitions/UBIInfo"
+
+  UBIInfoListResult:
+    type: "object"
+    properties:
+      error_code:
+        type: "integer"
+        format: "int32"
+      error_msg:
+        type: "string"
+      data:
+        type: "array"
+        items:
+          $ref: "#/definitions/UBIInfo"

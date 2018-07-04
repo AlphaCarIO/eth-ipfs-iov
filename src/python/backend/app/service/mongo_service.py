@@ -61,7 +61,7 @@ def getUbiInfoList(search_type, search_txt):
     elif search_type == '0' :
         cond = { '$or' : [ 
                     {'ubi_code': search_txt}, 
-                    {'car.vin_code': search_txt}, 
+                    {'car_info.vin_code': search_txt}, 
                     {'user.driving_license': search_txt},
                     {'user.name': search_txt}, 
                     ]
@@ -69,7 +69,7 @@ def getUbiInfoList(search_type, search_txt):
     elif search_type == '1' :
         cond = {'ubi_code': search_txt}
     elif search_type == '2' :
-        cond = {'car.vin_code': search_txt}
+        cond = {'car_info.vin_code': search_txt}
     elif search_type == '3' :
         cond = {'user.name': search_txt}
     elif search_type == '4' :

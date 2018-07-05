@@ -1,2 +1,3 @@
 .node-xmlhttprequest*
 .node_modules
+build

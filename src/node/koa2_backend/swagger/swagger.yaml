@@ -277,9 +277,35 @@ definitions:
   Ticker:
     type: "object"
     properties:
-      price:
+      quoteVolume:
         type: "number"
         format: "double"
+      baseVolume:
+        type: "number"
+        format: "double"
+      highestBid:
+        type: "number"
+        format: "double"
+      high24hr:
+        type: "number"
+        format: "double"
+      last:
+        type: "number"
+        format: "double"
+      lowestAsk:
+        type: "number"
+        format: "double"
+      elapsed:
+        type: "string"
+      result:
+        type: "boolean"
+      low24hr:
+        type: "number"
+        format: "double"
+      percentChange:
+        type: "number"
+        format: "double"
+
 
   TickerResult:
     type: "object"

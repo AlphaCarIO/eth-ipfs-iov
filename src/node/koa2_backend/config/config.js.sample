@@ -8,10 +8,22 @@ const acar_contract_addr = "0x5acf3c1c755480278a02bf6e35dc2cb88b539bfd"
 
 const mongodb_url = "mongodb://localhost:27017/alphacar"
 
+const gate_query_conf = {
+    baseURL: 'https://data.gateio.io/',
+    mode: 'no-cors',
+    headers:{
+        'Content-Type': 'application/x-www-form-urlencoded',
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Headers": "Authorization,Origin, X-Requested-With, Content-Type, Accept"
+    },
+    timeout: 15000,
+};
+
 module.exports = {
     web3_url,
     acar_abi_def,
     acar_contract_addr,
     owner_addr,
     mongodb_url,
+    gate_query_conf,
 }

@@ -146,6 +146,25 @@ paths:
           schema:
             $ref: "#/definitions/UBIInfoListResult"
 
+  /gateio/ticker/{ticker_pair}:
+    get:
+      tags: [Gate.IO]
+      summary: get ticker info
+      description: get ticker info by ticker_pair
+      produces:
+        - application/json
+      parameters:
+        - name: ticker_pair
+          in: path
+          description: the ticker_pair string.
+          required: true
+          type: string
+      responses:
+        200:
+          description: ticker response
+          schema:
+            $ref: "#/definitions/TickerResult"
+
 definitions:
 
   TokenInfoResult:
@@ -254,3 +273,21 @@ definitions:
             type: "array"
             items:
               $ref: "#/definitions/UBIInfo"
+
+  Ticker:
+    type: "object"
+    properties:
+      price:
+        type: "number"
+        format: "double"
+
+  TickerResult:
+    type: "object"
+    properties:
+      error_code:
+        type: "integer"
+        format: "int32"
+      error_msg:
+        type: "string"
+      data:
+        $ref: "#/definitions/Ticker"

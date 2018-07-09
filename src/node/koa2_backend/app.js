@@ -14,6 +14,7 @@ const logger = require('koa-logger')
 const index_c = require('./routes/index_controller')
 const web_c = require('./routes/web3_controller')
 const mongo_c = require('./routes/mongo_controller')
+const gate_c = require('./routes/gate_controller')
 
 // error handler
 onerror(app)
@@ -37,6 +38,7 @@ app.use(async (ctx, next) => {
 app.use(index_c.routes(), index_c.allowedMethods())
 app.use(web_c.routes(), web_c.allowedMethods())
 app.use(mongo_c.routes(), mongo_c.allowedMethods())
+app.use(gate_c.routes(), gate_c.allowedMethods())
 
 // error-handling
 app.on('error', (err, ctx) => {

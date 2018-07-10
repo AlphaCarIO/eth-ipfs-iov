@@ -20,4 +20,10 @@ router.get('/ubi_info/list', async (ctx, next) => {
     await next()
 })
 
+router.post('/ubi_info/tx_count_lst', async (ctx, next) => {
+    ctx.response.type = 'json';
+    await mongo_service.getTxCountList(ctx)
+    await next()
+})
+
 module.exports = router

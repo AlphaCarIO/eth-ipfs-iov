@@ -146,6 +146,28 @@ paths:
           schema:
             $ref: "#/definitions/UBIInfoListResult"
 
+  /ubi_info/tx_count_lst:
+    post:
+      tags: [UBI Info]
+      summary: get tx count list
+      description: get tx count list
+      produces:
+        - application/json
+      parameters:
+        - name: dates
+          in: body
+          description: the dates list.
+          required: true
+          schema:
+            type: "array"
+            items:
+              type: "string"
+      responses:
+        200:
+          description: tx count list response
+          schema:
+            $ref: "#/definitions/TxCountListResult"
+
   /gateio/ticker/{ticker_pair}:
     get:
       tags: [Gate.IO]
@@ -273,6 +295,33 @@ definitions:
             type: "array"
             items:
               $ref: "#/definitions/UBIInfo"
+
+  TxCount:
+    type: "object"
+    properties:
+      date_str:
+        type: "string"
+      count:
+        type: "integer"
+        format: "int32"
+
+
+  TxCountListResult:
+    type: "object"
+    properties:
+      error_code:
+        type: "integer"
+        format: "int32"
+      error_msg:
+        type: "string"
+      data:
+        type: "object"
+        properties:
+          lst:
+            type: "array"
+            items:
+              type: "integer"
+              format: "int32"
 
   Ticker:
     type: "object"

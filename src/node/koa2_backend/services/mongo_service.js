@@ -169,3 +169,71 @@ export async function getUBIInfoList(ctx) {
 
   ctx.response.body = body
 }
+
+export async function getTxCountList(ctx) {
+  let dates = ctx.request.body;
+  console.log('getTxCountList dates:', dates)
+  let date_cond = [];
+  for (var i=0;i<dates.length;i++)
+  {
+    date_cond.push({'_id': dates[i]})
+  }
+  console.log('date_cond:', date_cond)
+
+  let cond = [
+    {
+      '$group': {
+        '_id': {
+          '$dateToString': {
+            'format': '%Y-%m-%d',
+            'date': {
+              '$add': [
+                new Date(0),
+                { $multiply: [ '$timestamp', 1000 ]}
+              ]
+            }
+          }
+        },
+        'count': { '$sum': 1 }
+      }
+  },
+  {
+    '$match': { '$or' : date_cond }
+  },
+  { '$sort': { '_id' : 1 } },
+  ]
+
+  let txs_count = await mongowrapper.UBIInfoModel.aggregate(cond).exec();
+  console.log('txs_count:', txs_count);
+
+  let tmp = {};
+
+  for (var i=0;i<txs_count.length;i++)
+  {
+    tmp[txs_count[i]._id] = txs_count[i].count;
+  }
+
+  for (var i=0;i<dates.length;i++)
+  {
+    if (!tmp.hasOwnProperty(dates[i])) {
+      tmp[dates[i]] = 0;
+    }
+  }
+
+  let final_res = [];
+
+  for (var i=0;i<dates.length;i++)
+  {
+    final_res.push(tmp[dates[i]])
+  }
+
+  let body = {
+    'error_code': 0,
+    'error_msg': '',
+    data: {
+      'txs_count': final_res
+    }
+  }
+
+  ctx.response.body = body
+}

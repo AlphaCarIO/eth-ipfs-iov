@@ -256,7 +256,7 @@ definitions:
         format: "int64"
       user:
         $ref: "#/definitions/User"
-      carinfo:
+      car_info:
         $ref: "#/definitions/CarInfo"
       start_date:
         type: "string"

@@ -10,8 +10,8 @@ services:
     container_name: ipfs_node
     ports:
       - "4001:4001"
-      - "127.0.0.1:5001:5001"
-      - "127.0.0.1:8080:8080"
+      - "5001:5001"
+      - "8080:8080"
     volumes:
       - ./var/ipfs:/root/.ipfs:rw
     command: /root/start.sh
@@ -40,3 +40,19 @@ services:
       - S="0.0.0.0:80"
     links:
       - mongodb
+
+  mysql:
+    build:
+      context: ./mysql
+      dockerfile: Dockerfile
+    image: alphacar/mysql
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./var/mysql:/var/lib/mysql:rw
+    environment:
+      - MYSQL_ROOT_PASSWORD="root123"
+      - MYSQL_DATABASE="alphacar"
+      - MYSQL_USER="demo"
+      - MYSQL_PASSWORD="demo123"

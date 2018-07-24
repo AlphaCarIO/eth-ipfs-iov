@@ -9,10 +9,10 @@ consumes:
 produces:
   - application/json
 
-basePath: /
+basePath: /api
 
 paths:
-  /:
+  /index:
     get:
       tags: [INDEX]
       summary: basic info of alphacar

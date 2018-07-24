@@ -52,7 +52,7 @@ if (!swagger.validateDocument(document)) {
   throw Error(swagger_path + ` does not conform to the Swagger 2.0 schema`);
 }
 
-app.use(ui(document, '/api'));
+app.use(ui(document, '/api_docs'));
 app.use(validate(document));
 
 module.exports = app

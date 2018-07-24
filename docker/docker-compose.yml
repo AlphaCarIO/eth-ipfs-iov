@@ -13,7 +13,7 @@ services:
       - "5001:5001"
       - "8080:8080"
     volumes:
-      - ./var/ipfs:/root/.ipfs:rw
+      - ./../../var/ipfs:/root/.ipfs:rw
     command: /root/start.sh
 
   mongodb:
@@ -25,7 +25,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - ./var/mongodb:/data/db:rw
+      - ./../../var/mongodb:/data/db:rw
       - ../src/mongo_scripts/:/mongo_scripts:rw
 
   rockmongo:
@@ -50,7 +50,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - ./var/mysql:/var/lib/mysql:rw
+      - ./../../var/mysql:/var/lib/mysql:rw
     environment:
       - MYSQL_ROOT_PASSWORD="root123"
       - MYSQL_DATABASE="alphacar"

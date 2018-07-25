@@ -90,7 +90,7 @@ export function gen_search_cond(ctx) {
     search_type = '0'
   }
 
-  console.log('search_type:', search_type, ' search_txt:', search_txt)
+  //console.log('search_type:', search_type, ' search_txt:', search_txt)
 
   if (search_txt == undefined || search_txt == '') {
   } else if (search_type == '0') {
@@ -134,7 +134,7 @@ export async function getUBIInfoList(ctx) {
 
   let cond = gen_search_cond(ctx)
 
-  console.log('cond', cond)
+  //console.log('cond', cond)
 
   let res;
   let total_count = 0;

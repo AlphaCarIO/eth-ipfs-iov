@@ -172,13 +172,11 @@ export async function getUBIInfoList(ctx) {
 
 export async function getTxCountList(ctx) {
   let dates = ctx.request.body;
-  console.log('getTxCountList dates:', dates)
   let date_cond = [];
   for (var i=0;i<dates.length;i++)
   {
     date_cond.push({'_id': dates[i]})
   }
-  console.log('date_cond:', date_cond)
 
   let cond = [
     {
@@ -204,7 +202,6 @@ export async function getTxCountList(ctx) {
   ]
 
   let txs_count = await mongowrapper.UBIInfoModel.aggregate(cond).exec();
-  console.log('txs_count:', txs_count);
 
   let tmp = {};
 

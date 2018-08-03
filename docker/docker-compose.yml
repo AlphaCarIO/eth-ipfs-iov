@@ -43,7 +43,6 @@ services:
       - "27017:27017"
     volumes:
       - ./../../var/mongodb:/data/db:rw
-      - ../src/mongo_scripts/:/mongo_scripts:rw
 
   rockmongo:
     image: maichong/rockmongo

@@ -6,7 +6,11 @@ const owner_addr = '0xda83aee0f49802a331d455f503341a5fdcbde923'
 
 const acar_contract_addr = "0x5acf3c1c755480278a02bf6e35dc2cb88b539bfd"
 
-const mongodb_url = "mongodb://localhost:27017/alphacar"
+let mongodb_url = "mongodb://localhost:27017/alphacar"
+
+if (process.env.MONGODB_URL != undefined) {
+    mongodb_url = process.env.MONGODB_URL
+}
 
 const gate_query_conf = {
     baseURL: 'https://data.gateio.io/',

@@ -6,7 +6,11 @@ const owner_addr = '0x769abf3ff14aca88926b74d9707ad40c56aff01e'
 
 const acar_contract_addr = "0x30e5ced3aa9148036116baf816fec8363691a5e8"
 
-const mongodb_url = "mongodb://localhost:27017/alphacar"
+let mongodb_url = "mongodb://localhost:27017/alphacar"
+
+if (process.env.MONGODB_URL != undefined) {
+    mongodb_url = process.env.MONGODB_URL
+}
 
 module.exports = {
     web3_url,

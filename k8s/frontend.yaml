@@ -4,7 +4,7 @@ metadata:
   name: frontend
 spec:
   selector:
-    app: hello
+    app: alphacar-browser
     tier: frontend
   ports:
     - protocol: "TCP"
@@ -21,15 +21,15 @@ spec:
   template:
     metadata:
       labels:
-        app: hello
+        app: alphacar-browser
         tier: frontend
         track: stable
     spec:
       containers:
         - name: nginx
-          image: "gcr.io/google-samples/hello-frontend:1.0"
+          image: "alphacar/frontend"
           lifecycle:
             preStop:
               exec:
-                command: ["/usr/sbin/nginx","-s","quit"]
+                command: ["/usr/sbin/nginx", "-s", "quit"]
                 

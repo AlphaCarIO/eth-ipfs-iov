@@ -1,10 +1,10 @@
 kind: Service
 apiVersion: v1
 metadata:
-  name: hello
+  name: alphacar-backend
 spec:
   selector:
-    app: hello
+    app: alphacar-backend
     tier: backend
   ports:
     - protocol: TCP

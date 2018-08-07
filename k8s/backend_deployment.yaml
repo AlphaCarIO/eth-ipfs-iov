@@ -1,19 +1,19 @@
 apiVersion: apps/v1beta1
 kind: Deployment
 metadata:
-  name: hello
+  name: alphacar-backend
 spec:
-  replicas: 2
+  replicas: 1
   template:
     metadata:
       labels:
-        app: hello
+        app: alphacar-backend
         tier: backend
         track: stable
     spec:
       containers:
-        - name: hello
-          image: "gcr.io/google-samples/hello-go-gke:1.0"
+        - name: alphacar-backend
+          image: "alphacar/backend"
           ports:
             - name: http
               containerPort: 80

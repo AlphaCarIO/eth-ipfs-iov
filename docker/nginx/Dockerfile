@@ -7,3 +7,5 @@ ENV DEBIAN_FRONTEND noninteractive
 COPY nginx.conf /etc/nginx/nginx.conf
 
 COPY alphacar_browser.conf /etc/nginx/conf.d/alphacar_browser.conf
+
+COPY dist /alphacar_browser

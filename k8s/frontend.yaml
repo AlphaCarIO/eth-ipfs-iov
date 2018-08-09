@@ -2,15 +2,19 @@ kind: Service
 apiVersion: v1
 metadata:
   name: frontend
+  labels:
+    run: frontend
 spec:
   selector:
-    app: alphacar-browser
-    tier: frontend
+    run: frontend
+  type: NodePort
+  #type: LoadBalancer
   ports:
-    - protocol: "TCP"
-      port: 80
-      targetPort: 80
-  type: LoadBalancer
+    - protocol: TCP
+      port: 8081
+      targetPort: 8090
+      name: http
+      #nodePort: 30080
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
@@ -21,15 +25,20 @@ spec:
   template:
     metadata:
       labels:
-        app: alphacar-browser
-        tier: frontend
-        track: stable
+        run: frontend
     spec:
       containers:
-        - name: nginx
-          image: "alphacar/frontend"
-          lifecycle:
-            preStop:
-              exec:
-                command: ["/usr/sbin/nginx", "-s", "quit"]
-                
+      - name: frontend
+        image: alphacar/frontend
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8090
+        lifecycle:
+          preStop:
+            exec:
+              command: ["/usr/sbin/nginx", "-s", "quit"]
+        env:
+        - name: IPFS_URL
+          value: http://47.89.208.49:8080
+        - name: LOG_LEVEL
+          value: http://47.89.208.49:3000

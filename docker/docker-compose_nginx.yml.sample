@@ -9,11 +9,11 @@ services:
     image: alphacar/frontend
     container_name: frontend
     ports:
-      - "38080:8080"
+      - "38090:8090"
     environment:
       - IPFS_URL=http://127.0.0.1:8080
       - BASE_URL=http://127.0.0.1:3000
-    volumes:
+    #volumes:
     #  - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
     #  - ./nginx/alphacar_browser.conf:/etc/nginx/conf.d/alphacar_browser.conf:ro
     #  - ./../../alphacar-browser/dist:/alphacar_browser:ro

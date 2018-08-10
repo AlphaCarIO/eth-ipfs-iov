@@ -14,7 +14,9 @@ spec:
       port: 8081
       targetPort: 8090
       name: http
-      #nodePort: 30080
+      nodePort: 30090
+  externalIPs:
+    - 47.88.53.196
 ---
 apiVersion: apps/v1beta1
 kind: Deployment
@@ -39,6 +41,6 @@ spec:
               command: ["/usr/sbin/nginx", "-s", "quit"]
         env:
         - name: IPFS_URL
-          value: http://47.89.208.49:8080
-        - name: LOG_LEVEL
-          value: http://47.89.208.49:3000
+          value: http://47.88.53.196:8080
+        - name: BASE_URL
+          value: http://47.88.53.196:3000

@@ -4,20 +4,20 @@ metadata:
   annotations:
     deployment.kubernetes.io/revision: "1"
     field.cattle.io/creatorId: user-hdtlw
-    field.cattle.io/publicEndpoints: '[{"addresses":["172.20.37.219"],"port":31090,"protocol":"TCP","serviceName":"alphacar-services:frontend-nodeport","allNodes":true}]'
+    field.cattle.io/publicEndpoints: '[{"addresses":["172.20.37.219"],"port":30000,"protocol":"TCP","serviceName":"alphacar-services:backend-nodeport","allNodes":true}]'
   creationTimestamp: null
   generation: 1
   labels:
-    workload.user.cattle.io/workloadselector: deployment-alphacar-services-frontend
-  name: frontend
-  selfLink: /apis/apps/v1beta2/namespaces/alphacar-services/deployments/frontend
+    workload.user.cattle.io/workloadselector: deployment-alphacar-services-backend
+  name: backend
+  selfLink: /apis/apps/v1beta2/namespaces/alphacar-services/deployments/backend
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
   revisionHistoryLimit: 10
   selector:
     matchLabels:
-      workload.user.cattle.io/workloadselector: deployment-alphacar-services-frontend
+      workload.user.cattle.io/workloadselector: deployment-alphacar-services-backend
   strategy:
     rollingUpdate:
       maxSurge: 1
@@ -26,28 +26,23 @@ spec:
   template:
     metadata:
       annotations:
-        field.cattle.io/ports: '[[{"containerPort":8090,"dnsName":"frontend-nodeport","kind":"NodePort","name":"8090tcp310901","protocol":"TCP","sourcePort":31090}]]'
+        field.cattle.io/ports: '[[{"containerPort":3000,"dnsName":"backend-nodeport","kind":"NodePort","name":"3000tcp300001","protocol":"TCP","sourcePort":30000}]]'
       creationTimestamp: null
       labels:
-        workload.user.cattle.io/workloadselector: deployment-alphacar-services-frontend
+        workload.user.cattle.io/workloadselector: deployment-alphacar-services-backend
     spec:
       affinity: {}
       containers:
       - args:
-        - nginx
-        - -g
-        - daemon off;
-        env:
-        - name: BASE_URL
-          value: http://172.20.37.219:30000
-        - name: IPFS_URL
-          value: http://172.20.37.219:8080
-        image: alphacar/frontend
+        - bash
+        - -c
+        - sleep 10; cd /root/backend; npm run prd; tail -f /dev/null;
+        image: alphacar/backend
         imagePullPolicy: IfNotPresent
-        name: frontend
+        name: backend
         ports:
-        - containerPort: 8090
-          name: 8090tcp310901
+        - containerPort: 3000
+          name: 3000tcp300001
           protocol: TCP
         resources: {}
         securityContext:

@@ -24,6 +24,8 @@ spec:
     type: RollingUpdate
   template:
     metadata:
+      annotations:
+        field.cattle.io/ports: '[[{"containerPort":8080,"dnsName":"ipfs-node-nodeport","kind":"NodePort","name":"8080tcp320801","protocol":"TCP","sourcePort":32080}]]'
       creationTimestamp: null
       labels:
         workload.user.cattle.io/workloadselector: deployment-alphacar-thirdparty-services-ipfs-node
@@ -35,6 +37,10 @@ spec:
         image: alphacar/ipfs_node
         imagePullPolicy: IfNotPresent
         name: ipfs-node
+        ports:
+        - containerPort: 8080
+          name: 8080tcp320801
+          protocol: TCP
         resources: {}
         securityContext:
           allowPrivilegeEscalation: false

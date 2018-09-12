@@ -39,9 +39,9 @@ spec:
         - daemon off;
         env:
         - name: BASE_URL
-          value: http://172.20.37.219:30000
+          value: http://bc.tarchcloud.com:30000
         - name: IPFS_URL
-          value: http://172.20.37.219:8080
+          value: http://bc.tarchcloud.com:32080
         image: alphacar/frontend
         imagePullPolicy: IfNotPresent
         name: frontend

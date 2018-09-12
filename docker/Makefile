@@ -13,5 +13,9 @@ del_eth:
 attach:
 	geth attach $(DATADIR)/geth.ipc
 
+bn:
+	cd nginx && ./cp_dist.sh
+	docker-compose -f docker-compose_nginx.yml build
+
 r_nginx:
 	docker-compose -f docker-compose_nginx.yml restart nginx

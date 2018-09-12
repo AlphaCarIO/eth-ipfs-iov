@@ -37,6 +37,9 @@ spec:
         - bash
         - -c
         - sleep 10; cd /root/backend; npm run prd; tail -f /dev/null;
+        env:
+        - name: MONGODB_URL
+          value: mongodb://bc.tarchcloud.com:31017/alphacar
         image: alphacar/backend
         imagePullPolicy: IfNotPresent
         name: backend

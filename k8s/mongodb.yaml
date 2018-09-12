@@ -25,7 +25,7 @@ spec:
   template:
     metadata:
       annotations:
-        field.cattle.io/ports: '[[{"containerPort":27017,"dnsName":"mongodb-nodeport","kind":"NodePort","name":"27017tcp270171","protocol":"TCP","sourcePort":27017}]]'
+        field.cattle.io/ports: '[[{"containerPort":27017,"dnsName":"mongodb-nodeport","kind":"NodePort","name":"27017tcp310171","protocol":"TCP","sourcePort":31017}]]'
       creationTimestamp: null
       labels:
         workload.user.cattle.io/workloadselector: deployment-alphacar-thirdparty-services-mongodb
@@ -37,7 +37,7 @@ spec:
         name: mongodb
         ports:
         - containerPort: 27017
-          name: 27017tcp270171
+          name: 27017tcp310171
           protocol: TCP
         resources: {}
         securityContext:

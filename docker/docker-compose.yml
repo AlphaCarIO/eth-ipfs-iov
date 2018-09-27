@@ -2,23 +2,6 @@ version: '3'
 
 services:
 
-  backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    image: alphacar/backend
-    container_name: backend
-    ports:
-      - "3000:3000"
-    #volumes:
-    #  - ./../src/node/koa2_backend:/root/koa2_backend:rw
-    environment:
-      - MONGODB_URL=mongodb://mongo_db:27017/alphacar
-    command: bash -c "sleep 10; cd /root/backend; npm run prd; tail -f /dev/null;"
-    links:
-      - ipfs_node
-      - mongo_db
-
   ipfs_node:
     build:
       context: ./ipfs_node
@@ -43,17 +26,14 @@ services:
       - "27017:27017"
     volumes:
       - ./../../var/mongodb:/data/db:rw
-
-  rockmongo:
-    image: maichong/rockmongo
-    container_name: rockmongo
+      
+  mongo-express:
+    image: mongo-express
+    restart: always
     ports:
-      - "18080:80"
+      - 18081:8081
     environment:
-      #- MONGO_PORT_27017_TCP_ADDR="0.0.0.0"
-      - MONGO_PORT_27017_TCP_ADDR="mongo_db"
-      - MONGO_HOST="lc_mongodb"
-      - S="0.0.0.0:80"
+      ME_CONFIG_MONGODB_SERVER: mongo_db
     links:
       - mongo_db
 

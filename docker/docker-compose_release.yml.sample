@@ -2,6 +2,23 @@ version: '3'
 
 services:
 
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    image: alphacar/backend
+    container_name: backend
+    ports:
+      - "3000:3000"
+    #volumes:
+    #  - ./../src/node/koa2_backend:/root/koa2_backend:rw
+    environment:
+      - MONGODB_URL=mongodb://mongo_db:27017/alphacar
+    command: bash -c "sleep 10; cd /root/backend; npm run prd; tail -f /dev/null;"
+    links:
+      - ipfs_node
+      - mongo_db
+
   nginx:
     build:
       context: ./nginx

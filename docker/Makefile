@@ -15,7 +15,7 @@ attach:
 
 bn:
 	cd nginx && ./cp_dist.sh
-	docker-compose -f docker-compose_nginx.yml build
+	docker-compose -f docker-compose_release.yml build
 
 r_nginx:
-	docker-compose -f docker-compose_nginx.yml restart nginx
+	docker-compose -f docker-compose_release.yml restart nginx

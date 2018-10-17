@@ -2,19 +2,19 @@ apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
   annotations:
-    deployment.kubernetes.io/revision: "2"
-    field.cattle.io/creatorId: user-hdtlw
-    field.cattle.io/publicEndpoints: '[{"addresses":["172.20.37.219"],"port":32080,"protocol":"TCP","serviceName":"alphacar-thirdparty-services:ipfs-node-nodeport","allNodes":true},{"addresses":["172.20.37.219"],"port":31001,"protocol":"TCP","serviceName":"alphacar-thirdparty-services:ipfs-node-nodeport","allNodes":true}]'
-    kubectl.kubernetes.io/last-applied-configuration: '{"apiVersion":"apps/v1beta2","kind":"Deployment","metadata":{"annotations":{"deployment.kubernetes.io/revision":"1","field.cattle.io/creatorId":"user-hdtlw"},"creationTimestamp":null,"generation":1,"labels":{"workload.user.cattle.io/workloadselector":"deployment-alphacar-thirdparty-services-ipfs-node"},"name":"ipfs-node","namespace":"alphacar-thirdparty-services","selfLink":"/apis/apps/v1beta2/namespaces/alphacar-thirdparty-services/deployments/ipfs-node"},"spec":{"progressDeadlineSeconds":600,"replicas":1,"revisionHistoryLimit":10,"selector":{"matchLabels":{"workload.user.cattle.io/workloadselector":"deployment-alphacar-thirdparty-services-ipfs-node"}},"strategy":{"rollingUpdate":{"maxSurge":1,"maxUnavailable":0},"type":"RollingUpdate"},"template":{"metadata":{"annotations":{"field.cattle.io/ports":"[[{\"containerPort\":8080,\"dnsName\":\"ipfs-node-nodeport\",\"kind\":\"NodePort\",\"name\":\"8080tcp320801\",\"protocol\":\"TCP\",\"sourcePort\":32080}]]"},"creationTimestamp":null,"labels":{"workload.user.cattle.io/workloadselector":"deployment-alphacar-thirdparty-services-ipfs-node"}},"spec":{"affinity":{},"containers":[{"args":["/root/start.sh"],"image":"alphacar/ipfs_node","imagePullPolicy":"IfNotPresent","name":"ipfs-node","ports":[{"containerPort":8080,"name":"8080tcp320801","protocol":"TCP"}],"resources":{},"securityContext":{"allowPrivilegeEscalation":false,"privileged":false,"readOnlyRootFilesystem":false,"runAsNonRoot":false},"stdin":true,"terminationMessagePath":"/dev/termination-log","terminationMessagePolicy":"File","tty":true,"volumeMounts":[{"mountPath":"/root/.ipfs","name":"vol1"}]}],"dnsPolicy":"ClusterFirst","restartPolicy":"Always","schedulerName":"default-scheduler","securityContext":{},"terminationGracePeriodSeconds":30,"volumes":[{"hostPath":{"path":"/data/ipfs","type":""},"name":"vol1"}]}}},"status":{}}'
-  creationTimestamp: 2018-09-12T07:53:07Z
-  generation: 4
+    deployment.kubernetes.io/revision: "1"
+    field.cattle.io/creatorId: user-v584z
+    field.cattle.io/publicEndpoints: '[{"addresses":["172.16.86.90"],"port":32080,"protocol":"TCP","serviceName":"alphacar-thirdparty-services:ipfs-node-nodeport","allNodes":true},{"addresses":["172.16.86.90"],"port":31001,"protocol":"TCP","serviceName":"alphacar-thirdparty-services:ipfs-node-nodeport","allNodes":true}]'
+  creationTimestamp: 2018-10-15T05:15:30Z
+  generation: 2
   labels:
+    cattle.io/creator: norman
     workload.user.cattle.io/workloadselector: deployment-alphacar-thirdparty-services-ipfs-node
   name: ipfs-node
   namespace: alphacar-thirdparty-services
-  resourceVersion: "836642"
+  resourceVersion: "10644"
   selfLink: /apis/apps/v1beta2/namespaces/alphacar-thirdparty-services/deployments/ipfs-node
-  uid: e2fc051d-b660-11e8-bf5c-00163e0007fd
+  uid: 55b395cc-d039-11e8-94b3-00163e0b6adb
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
@@ -30,12 +30,12 @@ spec:
   template:
     metadata:
       annotations:
+        cattle.io/timestamp: 2018-10-15T05:15:28Z
         field.cattle.io/ports: '[[{"containerPort":8080,"dnsName":"ipfs-node-nodeport","kind":"NodePort","name":"8080tcp320801","protocol":"TCP","sourcePort":32080},{"containerPort":5001,"dnsName":"ipfs-node-nodeport","kind":"NodePort","name":"5001tcp310011","protocol":"TCP","sourcePort":31001}]]'
       creationTimestamp: null
       labels:
         workload.user.cattle.io/workloadselector: deployment-alphacar-thirdparty-services-ipfs-node
     spec:
-      affinity: {}
       containers:
       - args:
         - /root/start.sh
@@ -52,6 +52,7 @@ spec:
         resources: {}
         securityContext:
           allowPrivilegeEscalation: false
+          capabilities: {}
           privileged: false
           readOnlyRootFilesystem: false
           runAsNonRoot: false
@@ -62,6 +63,7 @@ spec:
         volumeMounts:
         - mountPath: /root/.ipfs
           name: vol1
+        workingDir: /root
       dnsPolicy: ClusterFirst
       restartPolicy: Always
       schedulerName: default-scheduler
@@ -75,20 +77,19 @@ spec:
 status:
   availableReplicas: 1
   conditions:
-  - lastTransitionTime: 2018-09-12T07:53:55Z
-    lastUpdateTime: 2018-09-12T07:53:55Z
+  - lastTransitionTime: 2018-10-15T05:16:18Z
+    lastUpdateTime: 2018-10-15T05:16:18Z
     message: Deployment has minimum availability.
     reason: MinimumReplicasAvailable
     status: "True"
     type: Available
-  - lastTransitionTime: 2018-09-12T07:53:07Z
-    lastUpdateTime: 2018-09-12T08:23:41Z
-    message: ReplicaSet "ipfs-node-5fb9d6bd9" is progressing.
-    reason: ReplicaSetUpdated
+  - lastTransitionTime: 2018-10-15T05:15:30Z
+    lastUpdateTime: 2018-10-15T05:16:18Z
+    message: ReplicaSet "ipfs-node-57c8c945db" has successfully progressed.
+    reason: NewReplicaSetAvailable
     status: "True"
     type: Progressing
-  observedGeneration: 4
+  observedGeneration: 2
   readyReplicas: 1
-  replicas: 2
-  unavailableReplicas: 1
+  replicas: 1
   updatedReplicas: 1

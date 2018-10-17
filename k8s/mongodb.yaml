@@ -3,13 +3,18 @@ kind: Deployment
 metadata:
   annotations:
     deployment.kubernetes.io/revision: "1"
-    field.cattle.io/creatorId: user-hdtlw
-  creationTimestamp: null
-  generation: 1
+    field.cattle.io/creatorId: user-v584z
+    field.cattle.io/publicEndpoints: '[{"addresses":["172.16.86.90"],"port":31017,"protocol":"TCP","serviceName":"alphacar-thirdparty-services:mongodb-nodeport","allNodes":true}]'
+  creationTimestamp: 2018-10-15T05:25:03Z
+  generation: 2
   labels:
+    cattle.io/creator: norman
     workload.user.cattle.io/workloadselector: deployment-alphacar-thirdparty-services-mongodb
   name: mongodb
+  namespace: alphacar-thirdparty-services
+  resourceVersion: "11811"
   selfLink: /apis/apps/v1beta2/namespaces/alphacar-thirdparty-services/deployments/mongodb
+  uid: ab36c085-d03a-11e8-94b3-00163e0b6adb
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
@@ -25,12 +30,12 @@ spec:
   template:
     metadata:
       annotations:
+        cattle.io/timestamp: 2018-10-15T05:25:02Z
         field.cattle.io/ports: '[[{"containerPort":27017,"dnsName":"mongodb-nodeport","kind":"NodePort","name":"27017tcp310171","protocol":"TCP","sourcePort":31017}]]'
       creationTimestamp: null
       labels:
         workload.user.cattle.io/workloadselector: deployment-alphacar-thirdparty-services-mongodb
     spec:
-      affinity: {}
       containers:
       - image: alphacar/mongodb
         imagePullPolicy: IfNotPresent
@@ -42,6 +47,7 @@ spec:
         resources: {}
         securityContext:
           allowPrivilegeEscalation: false
+          capabilities: {}
           privileged: false
           readOnlyRootFilesystem: false
           runAsNonRoot: false
@@ -62,4 +68,22 @@ spec:
           path: /data/mongodb
           type: ""
         name: vol1
-status: {}
+status:
+  availableReplicas: 1
+  conditions:
+  - lastTransitionTime: 2018-10-15T05:31:43Z
+    lastUpdateTime: 2018-10-15T05:31:43Z
+    message: Deployment has minimum availability.
+    reason: MinimumReplicasAvailable
+    status: "True"
+    type: Available
+  - lastTransitionTime: 2018-10-15T05:25:03Z
+    lastUpdateTime: 2018-10-15T05:31:43Z
+    message: ReplicaSet "mongodb-bb698fb64" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
+  observedGeneration: 2
+  readyReplicas: 1
+  replicas: 1
+  updatedReplicas: 1
